@@ -7,6 +7,7 @@ import { SearchBar } from "../base";
 import debounce from "lodash/debounce";
 import { CustomTable } from "../composite";
 import useFirstRenderSkip from "../utils/useFirstRenderSkip";
+import { TableEmptyState } from "../composite";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -65,20 +66,21 @@ const Home = () => {
     }
   }, [page, rowsPerPage]);
 
-  console.log(page);
-  return (
-    <HomeWrapper $background={palette.background.secondary}>
-      <SearchWrapper>
-        <SearchBar
-          value={searchName}
-          onChange={(e) => {
-            setSearchName(e);
-            debouncedSearch({ searchText: e, rowsPerPage, page });
-          }}
-        />
-      </SearchWrapper>
-      <ResultWrapper>
-        {usersData ? (
+  const searchTextEnteredHandler = (e) => {
+    setSearchName(e);
+    if (e) {
+      debouncedSearch({ searchText: e, rowsPerPage, page });
+      return;
+    }
+    setUsersData(null);
+    setPage(1);
+    setRowsPerPager(30);
+  };
+
+  const componentToRender = () => {
+    if (usersData) {
+      if (+usersData.totalCount > 0) {
+        return (
           <CustomTable
             handleChangePage={(_, newPage) => setPage(newPage + 1)}
             page={page - 1}
@@ -87,8 +89,19 @@ const Home = () => {
             totalCount={usersData.totalCount}
             rows={usersData.items}
           />
-        ) : null}
-      </ResultWrapper>
+        );
+      }
+      return <TableEmptyState text="Try another name this one doesn't exist" />;
+    }
+    return <TableEmptyState text="Please enter a name to search" />;
+  };
+
+  return (
+    <HomeWrapper $background={palette.background.secondary}>
+      <SearchWrapper>
+        <SearchBar value={searchName} onChange={searchTextEnteredHandler} />
+      </SearchWrapper>
+      <ResultWrapper>{componentToRender()}</ResultWrapper>
     </HomeWrapper>
   );
 };

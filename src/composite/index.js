@@ -1,4 +1,5 @@
 import Header from "./Header";
 import CustomTable from "./Table";
+import TableEmptyState from "./TableEmptyState";
 
-export { Header, CustomTable };
+export { Header, CustomTable ,TableEmptyState};
