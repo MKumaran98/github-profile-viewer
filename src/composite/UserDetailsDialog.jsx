@@ -10,6 +10,7 @@ import { H4, P1, H7, P2 } from "../base";
 import { getFullDate } from "../utils/dateHelper";
 import { Button } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import Box from "@mui/material/Box";
 
 const UserDetailsWrapper = styled.div`
   position: absolute;
@@ -105,19 +106,6 @@ const UserDetailsDialog = ({ open, handleClose, userDetails }) => {
                 <H4 color={palette.text.primary}>{login}</H4>
                 {bio ? <P1 color={palette.text.secondary}>{bio}</P1> : null}
               </TextWrapper>
-              <Button
-                sx={{
-                  marginLeft: "auto",
-                  height: "40px",
-                  width: "150px",
-                  alignSelf: "center",
-                }}
-                variant="outlined"
-                endIcon={<OpenInNewIcon />}
-                onClick={() => window.open(htmlUrl)}
-              >
-                Checkout
-              </Button>
             </AvatarNameWrapper>
             <AccountDetails>
               <H7 color={palette.text.secondary}>Public repos</H7>
@@ -129,6 +117,20 @@ const UserDetailsDialog = ({ open, handleClose, userDetails }) => {
               <H7 color={palette.text.secondary}>Created at</H7>
               <P2 color={palette.text.primary}>{getFullDate(createdAt)}</P2>
             </AccountDetails>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                sx={{
+                  height: "40px",
+                  width: "80%",
+                  marginTop: "16px",
+                }}
+                variant="outlined"
+                endIcon={<OpenInNewIcon />}
+                onClick={() => window.open(htmlUrl)}
+              >
+                Checkout
+              </Button>
+            </Box>
           </DialogBody>
         </UserDetailsWrapper>
       </Fade>
