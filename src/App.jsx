@@ -2,6 +2,14 @@ import { Header } from "./composite";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { themes } from "./constants/theme";
+import { Home } from "./container";
+import styled from "@emotion/styled";
+
+const HomeWrapper = styled.div`
+  margin-top: 80px;
+  width: 100%;
+  height: calc(100vh - 8px);
+`;
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -38,6 +46,9 @@ const App = () => {
   return (
     <ThemeProvider theme={createTheme(getDesignTokens(theme))}>
       <Header changeThemeHandler={setTheme} currentTheme={theme} />
+      <HomeWrapper>
+        <Home />
+      </HomeWrapper>
     </ThemeProvider>
   );
 };
