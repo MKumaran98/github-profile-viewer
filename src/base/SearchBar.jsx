@@ -1,8 +1,10 @@
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import { useTheme } from "@emotion/react";
 
 const SearchBar = ({ value, onChange }) => {
+  const { palette } = useTheme();
   return (
     <TextField
       placeholder="Search user"
@@ -21,6 +23,7 @@ const SearchBar = ({ value, onChange }) => {
           borderBottomRightRadius: "50px",
         },
         width: "100%",
+        background: palette.background.primary,
       }}
       value={value}
       onChange={(e) => onChange(e.target.value)}

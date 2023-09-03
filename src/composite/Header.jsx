@@ -36,7 +36,7 @@ const Header = ({ currentTheme, changeThemeHandler }) => {
 
   return (
     <HeaderContainer
-      $background={palette.background.secondary}
+      $background={palette.background.primary}
       $boderColor={palette.background.border}
     >
       <GitHubIcon fontSize="large" sx={{ color: palette.text.primary }} />

@@ -7,6 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { columns } from "../constants/table";
+import styled from "@emotion/styled";
+import { useTheme } from "@mui/material/styles";
+
+const TableHeaderText = styled.span`
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: bold;
+`;
 
 const CustomTable = ({
   totalCount,
@@ -16,8 +24,16 @@ const CustomTable = ({
   page,
   rows,
 }) => {
+  const { palette } = useTheme();
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        border: `1px solid ${palette.background.border}`,
+        borderRadius: "8px",
+      }}
+    >
       <TableContainer sx={{ maxHeight: "calc(100vh - 250px)" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -28,7 +44,7 @@ const CustomTable = ({
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  <TableHeaderText>{column.label}</TableHeaderText>
                 </TableCell>
               ))}
             </TableRow>

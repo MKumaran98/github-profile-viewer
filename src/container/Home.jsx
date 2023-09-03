@@ -10,7 +10,7 @@ import useFirstRenderSkip from "../utils/useFirstRenderSkip";
 
 const HomeWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 102%;
   background: ${({ $background }) => $background};
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@ const Home = () => {
 
   console.log(page);
   return (
-    <HomeWrapper $background={palette.background.primary}>
+    <HomeWrapper $background={palette.background.secondary}>
       <SearchWrapper>
         <SearchBar
           value={searchName}
