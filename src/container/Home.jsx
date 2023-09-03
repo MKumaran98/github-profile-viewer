@@ -7,12 +7,12 @@ import { SearchBar } from "../base";
 import debounce from "lodash/debounce";
 import { CustomTable } from "../composite";
 import useFirstRenderSkip from "../utils/useFirstRenderSkip";
-import { TableEmptyState } from "../composite";
+import { TableEmptyState, UserDetailsDialog } from "../composite";
 
 const HomeWrapper = styled.div`
   width: 100%;
   height: 102%;
-  background: ${({ $background }) => $background};
+  background: ${({ background }) => background};
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -43,6 +43,7 @@ const Home = () => {
   const [usersData, setUsersData] = useState(null);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPager] = useState(30);
+  const [userSelected, setUserSelected] = useState(null);
 
   const handleSearch = ({ searchText, rowsPerPage, page }) => {
     if (searchText.length > 0) {
@@ -77,6 +78,14 @@ const Home = () => {
     setRowsPerPager(30);
   };
 
+  const rowClickedHandler = (item) => {
+    fetch({
+      key: `/users/${item.login}`,
+      HTTPmethod: "get",
+    }).then((resp) => {
+      setUserSelected(resp.data);
+    });
+  };
   const componentToRender = () => {
     if (usersData) {
       if (+usersData.totalCount > 0) {
@@ -88,6 +97,7 @@ const Home = () => {
             handleChangeRowsPerPage={(e) => setRowsPerPager(+e.target.value)}
             totalCount={usersData.totalCount}
             rows={usersData.items}
+            rowItemClicked={rowClickedHandler}
           />
         );
       }
@@ -97,12 +107,19 @@ const Home = () => {
   };
 
   return (
-    <HomeWrapper $background={palette.background.secondary}>
-      <SearchWrapper>
-        <SearchBar value={searchName} onChange={searchTextEnteredHandler} />
-      </SearchWrapper>
-      <ResultWrapper>{componentToRender()}</ResultWrapper>
-    </HomeWrapper>
+    <>
+      <HomeWrapper background={palette.background.secondary}>
+        <SearchWrapper>
+          <SearchBar value={searchName} onChange={searchTextEnteredHandler} />
+        </SearchWrapper>
+        <ResultWrapper>{componentToRender()}</ResultWrapper>
+      </HomeWrapper>
+      <UserDetailsDialog
+        open={!!userSelected}
+        handleClose={() => setUserSelected(null)}
+        userDetails={userSelected}
+      />
+    </>
   );
 };
 

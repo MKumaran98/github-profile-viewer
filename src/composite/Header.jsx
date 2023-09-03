@@ -14,8 +14,8 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 16px;
-  background: ${({ $background }) => $background};
-  border-bottom: 1px solid ${({ $boderColor }) => $boderColor};
+  background: ${({ background }) => background};
+  border-bottom: 1px solid ${({ boderColor }) => boderColor};
 `;
 
 const ModeToggleWrapper = styled.div`
@@ -36,8 +36,8 @@ const Header = ({ currentTheme, changeThemeHandler }) => {
 
   return (
     <HeaderContainer
-      $background={palette.background.primary}
-      $boderColor={palette.background.border}
+      background={palette.background.primary}
+      boderColor={palette.background.border}
     >
       <GitHubIcon fontSize="large" sx={{ color: palette.text.primary }} />
       <ModeToggleWrapper onClick={changeThemeClickedHandler}>

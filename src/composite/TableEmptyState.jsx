@@ -1,6 +1,7 @@
 import octacat from "../assets/github.svg";
 import styled from "@emotion/styled";
 import { useTheme } from "@emotion/react";
+import { H2 } from "../base";
 
 const EmptyStateWrapper = styled.div`
   width: 100%;
@@ -17,21 +18,13 @@ const ImageTextWrapper = styled.div`
   align-items: center;
 `;
 
-const EmptyTableText = styled.h2`
-  font-weight: normal;
-  font-size: 28px;
-  line-height: 36px;
-  color: ${({ $color }) => $color};
-  margin: 0px;
-`;
-
 const TableEmptyState = ({ text }) => {
   const { palette } = useTheme();
   return (
     <EmptyStateWrapper>
       <ImageTextWrapper>
         <img alt="octacat" src={octacat} height={300} width={300} />
-        <EmptyTableText $color={palette.text.secondary}>{text}</EmptyTableText>
+        <H2 color={palette.text.secondary}>{text}</H2>
       </ImageTextWrapper>
     </EmptyStateWrapper>
   );
