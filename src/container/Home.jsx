@@ -8,6 +8,7 @@ import debounce from "lodash/debounce";
 import { CustomTable } from "../composite";
 import useFirstRenderSkip from "../utils/useFirstRenderSkip";
 import { TableEmptyState, UserDetailsDialog } from "../composite";
+import Snackbar from "@mui/material/Snackbar";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -44,6 +45,7 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPager] = useState(30);
   const [userSelected, setUserSelected] = useState(null);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
 
   const handleSearch = ({ searchText, rowsPerPage, page }) => {
     if (searchText.length > 0) {
@@ -54,7 +56,9 @@ const Home = () => {
         .then((resp) => {
           setUsersData(resp.data);
         })
-        .catch((err) => console.log(err));
+        .catch(() => {
+          setErrorSnackbarOpen(true);
+        });
     }
   };
 
@@ -82,9 +86,13 @@ const Home = () => {
     fetch({
       key: `/users/${item.login}`,
       HTTPmethod: "get",
-    }).then((resp) => {
-      setUserSelected(resp.data);
-    });
+    })
+      .then((resp) => {
+        setUserSelected(resp.data);
+      })
+      .catch(() => {
+        setErrorSnackbarOpen(true);
+      });
   };
   const componentToRender = () => {
     if (usersData) {
@@ -118,6 +126,14 @@ const Home = () => {
         open={!!userSelected}
         handleClose={() => setUserSelected(null)}
         userDetails={userSelected}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        severity="error"
+        open={errorSnackbarOpen}
+        onClose={() => setErrorSnackbarOpen(false)}
+        message="Something went wrong"
+        autoHideDuration={3000}
       />
     </>
   );
